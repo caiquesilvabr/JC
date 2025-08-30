@@ -1,90 +1,120 @@
-
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contagem Regressiva para o Casamento</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <title>Save the Date - Jéssica & Caique</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: Inter, sans-serif; color: #fff; overflow: hidden; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #fff8dc, #f5deb3);
-      margin: 0;
-      padding: 30px 20px;
+      background: url(fundo.jpg) center/cover no-repeat;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: start;
-      height: 100vh;
+      justify-content: center;
+    }
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(2px);
+    }
+    .container {
+      position: relative;
       text-align: center;
-      color: #8b6914;
+      padding: 20px;
+      z-index: 2;
     }
-
     h1 {
-      font-size: 2.8em;
-      margin-bottom: 10px;
-      color: #b8860b;
-    }
-
-    h2 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 2.5em;
-      color: #daa520;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 600;
       margin-bottom: 20px;
+      background: linear-gradient(90deg, #fff7d6, #f3d98b, #b8860b, #f3d98b, #fff7d6);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 6s linear infinite;
     }
-
-    #contador {
-      font-size: 1.8em;
-      background: #fffaf0;
-      padding: 20px 40px;
-      border-radius: 20px;
-      box-shadow: 0 4px 15px rgba(218, 165, 32, 0.2);
-      border: 2px dashed #d4af37;
+    @keyframes shine {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-
-    .heart {
-      font-size: 2em;
-      color: #ffd700;
-      margin: 15px 0;
-      animation: pulse 1.6s infinite;
+    .date {
+      font-size: clamp(18px, 3vw, 26px);
+      margin-bottom: 30px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px 20px;
+      border-radius: 30px;
+      display: inline-block;
     }
-
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.2); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.8; }
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .time-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 15px 20px;
+      min-width: 70px;
+    }
+    .time-box h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(20px, 4vw, 36px);
+      margin-bottom: 5px;
+    }
+    .time-box span {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    @media(max-width: 600px){
+      .countdown { gap: 6px; }
+      .time-box { padding: 10px; }
     }
   </style>
 </head>
 <body>
-  <h1>Contagem Regressiva para o Casamento</h1>
-  <h2>Jéssica 💕 Caique</h2>
-  <div class="heart">💛💛💛</div>
-  <div id="contador">Carregando...</div>
+  <div class="overlay"></div>
+  <div class="container">
+    <h1>Jéssica & Caique</h1>
+    <div class="date">13 de Setembro de 2025 • 19h</div>
+    <div class="countdown">
+      <div class="time-box"><h2 id="days">--</h2><span>Dias</span></div>
+      <div class="time-box"><h2 id="hours">--</h2><span>Horas</span></div>
+      <div class="time-box"><h2 id="mins">--</h2><span>Min</span></div>
+      <div class="time-box"><h2 id="secs">--</h2><span>Seg</span></div>
+    </div>
+  </div>
 
   <script>
-    const destino = new Date("2025-09-13T19:00:00");
-    function atualizarContador() {
-      const agora = new Date();
-      const diferenca = destino - agora;
-
-      if (diferenca <= 0) {
-        document.getElementById("contador").innerText = "É hoje o grande dia! 💍🎉";
-        return;
-      }
-
-      const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-      const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
-      const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
-
-      document.getElementById("contador").innerText =
-        `${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos 💛`;
+    const targetDate = new Date("2025-09-13T19:00:00-03:00").getTime();
+    const el = {
+      days: document.getElementById('days'),
+      hours: document.getElementById('hours'),
+      mins: document.getElementById('mins'),
+      secs: document.getElementById('secs')
+    };
+    function updateCountdown() {
+      const now = Date.now();
+      let diff = targetDate - now;
+      if (diff < 0) diff = 0;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+      el.days.textContent = days;
+      el.hours.textContent = hours.toString().padStart(2,'0');
+      el.mins.textContent = mins.toString().padStart(2,'0');
+      el.secs.textContent = secs.toString().padStart(2,'0');
     }
-
-    setInterval(atualizarContador, 1000);
-    atualizarContador();
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
